@@ -1,0 +1,56 @@
+.profile-container {
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-heading {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.accordion .accordion-item {
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.accordion .accordion-header {
+    background: #333;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.accordion .accordion-body {
+    background: #fff;
+    color: #333;
+    padding: 15px;
+}
+
+.profile-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.profile-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.profile-btn:hover {
+    background-color: #222;
+    color: #fff;
+}

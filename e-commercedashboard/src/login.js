@@ -1,73 +1,82 @@
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-
-import Row from 'react-bootstrap/Row';
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import './Login.css'; // Import the CSS file
 
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-const Login = ()=>{
+  useEffect(() => {
+    const auth = localStorage.getItem('user');
+    if (auth) {
+      navigate('/');
+    }
+  }, [navigate]);
 
-    const [email,setemail] = useState("");
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Both email and password are required.");
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Invalid email address.");
+      return false;
+    }
+    return true;
+  };
 
-    const [password,setpassword] = useState("");
-const navigate = useNavigate();
+  const collectdata = async () => {
+    if (!validateForm()) return;
 
-useEffect(()=>
-    {
-      const auth = localStorage.getItem('user');
-      
-      if(auth){
-        navigate('/')
+    let result = await fetch('http://localhost:6600/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json'
       }
-    },[]);
-
-const collectdata = async ()=>{
-    let result =  await fetch('http://localhost:6600/login',{
-
-      method:'post',
-      body: JSON.stringify({email,password}),
-      headers:{
-
-        'Content-Type':"application/json"
-      }
-    })
+    });
 
     result = await result.json();
-    console.warn( result);
-    if(result.auth){
-      //remember name "user" which help u to access data in it during Add , Update , dlt.
-      //here first parameter is we can give and we should remember 
-      localStorage.setItem("user",JSON.stringify(result.user))
-      localStorage.setItem("token",JSON.stringify(result.auth))
-      navigate("/")
-
+    if (result.auth) {
+      localStorage.setItem("user", JSON.stringify(result.user));
+      localStorage.setItem("token", JSON.stringify(result.auth));
+      navigate("/");
+    } else {
+      setError("Register first or check your email/password.");
     }
-    else{
-        alert("register first !! or u entered wrong email or password u setted!!!")
-    }
-}
+  };
 
-    return (
-        <div className='App  textdo' >
-            <h1>Alert: register before login</h1>
-            <Form>
-
-          
-      <Form.Group className="mb-3" controlId="formGroupEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" value = {email} onChange = {(e)=>setemail(e.target.value)}/>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formGroupPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password"  value = {password} onChange = {(e)=>setpassword(e.target.value)}/>
-      </Form.Group>
-    </Form>
-    <Button variant="dark" onClick = {collectdata}>login !!</Button>
-        </div>
-    
-    )
-}
+  return (
+    <div className='login-container'>
+      <h1>Login</h1>
+      <Form>
+        <Form.Group className="login-form-group" controlId="formGroupEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="login-form-group" controlId="formGroupPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        {error && <div className="alert">{error}</div>}
+        <Button variant="dark" className="login-button" onClick={collectdata}>Login</Button>
+      </Form>
+    </div>
+  );
+};
 
 export default Login;

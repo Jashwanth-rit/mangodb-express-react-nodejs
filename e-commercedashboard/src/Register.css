@@ -1,0 +1,45 @@
+/* Regist.css */
+.regist-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 50px;
+    margin-bottom: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .regist-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+  }
+  
+  .regist-form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .regist-form-group label {
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  .regist-form-group .form-control {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+  }
+  
+  .regist-button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .alert {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+  }
+  

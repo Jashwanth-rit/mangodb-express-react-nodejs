@@ -148,15 +148,26 @@ app.get("/update/:_id", async (req, res) => {
   res.send(product);
 });
 app.put("/update/:_id", async (req, res) => {
-  let product = await Product.updateOne(
-    { _id: req.params.i },
-    {
-      $set: req.body,
-    }
-  );
+  console.warn("_id:", req.params._id);
+  console.warn("data:", req.body);
 
-  res.send(product);
+  try {
+    const product = await Product.updateOne(
+      { _id: req.params._id },
+      { $set: req.body }
+    );
+
+    if (product.nModified > 0) {
+      res.status(200).send({ message: "Product updated successfully" });
+    } else {
+      res.status(404).send({ message: "Product not found or no changes made" });
+    }
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).send({ message: "Internal server error" });
+  }
 });
+
 app.get("/search/:key", async (req, res) => {
   let product = await Product.find({
     $or: [
